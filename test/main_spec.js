@@ -107,3 +107,20 @@ describe('Session with a .before hook', function () {
   });
 });
 
+describe('Session chains with done inside the .expect call', function () {
+
+  var sess = null;
+
+  beforeEach(function (done) {
+    sess = session(app);
+    sess.request('get', '/')
+      .expect(200)
+      .expect('GET,,1', done);
+  });
+
+  it('should increment session counter', function (done) {
+    sess.request('get', '/')
+      .expect(200)
+      .expect('GET,,2', done);
+  });
+});
